@@ -27,20 +27,28 @@ class Email {
 		if ( is_numeric( $id_or_email ) ) {
 			$user = get_user_by( 'id', absint( $id_or_email ) );
 			if ( $user instanceof \WP_User ) {
-				return $user->user_email;
+				if ( is_email( $user->user_email ) ) {
+					return $user->user_email;
+				}
 			}
 		} elseif ( $id_or_email instanceof \WP_User ) {
-			return $id_or_email->user_email;
+			if ( is_email( $id_or_email->user_email ) ) {
+				return $id_or_email->user_email;
+			}
 		} elseif ( $id_or_email instanceof \WP_Post ) {
 			$user = get_user_by( 'id', (int) $id_or_email->post_author );
 			if ( $user instanceof \WP_User ) {
-				return $user->user_email;
+				if ( is_email( $user->user_email ) ) {
+					return $user->user_email;
+				}
 			}
 		} elseif ( $id_or_email instanceof \WP_Comment ) {
 			if ( ! empty( $id_or_email->user_id ) ) {
 				$user = get_user_by( 'id', (int) $id_or_email->user_id );
 				if ( $user instanceof \WP_User ) {
-					return $user->user_email;
+					if ( is_email( $user->user_email ) ) {
+						return $user->user_email;
+					}
 				}
 			}
 			if ( ! empty( $id_or_email->comment_author_email ) ) {
