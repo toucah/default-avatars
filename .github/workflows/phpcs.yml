@@ -1,0 +1,25 @@
+name: phpcs
+
+on: [push, pull_request]
+
+# Cancel all previous workflow runs that have not yet completed.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  phpcs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch repository
+        uses: actions/checkout@v4
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: latest
+          ini-values: memory_limit=1G
+          coverage: none
+      - name: Install dependencies
+        uses: ramsey/composer-install@v2
+      - name: Run PHPCS
+        run: vendor/bin/phpcs --report-full --report-checkstyle=./phpcs-report.xml
