@@ -130,7 +130,7 @@ class Pixicon implements Default_Avatar {
 	}
 
 	/**
-	 * Reads an indention.
+	 * Reads a pixicon.
 	 *
 	 * @since 1.0.0
 	 * @return string|null
@@ -145,7 +145,7 @@ class Pixicon implements Default_Avatar {
 	}
 
 	/**
-	 * Updates a default avatar.
+	 * Updates a pixicon.
 	 *
 	 * @since 1.0.0
 	 * @param \GdImage $image The image.
@@ -156,7 +156,7 @@ class Pixicon implements Default_Avatar {
 	}
 
 	/**
-	 * Deletes a default avatar.
+	 * Deletes a pixicon.
 	 *
 	 * @since 1.0.0
 	 * @return void

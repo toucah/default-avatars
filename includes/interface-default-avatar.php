@@ -17,7 +17,7 @@ namespace Default_Avatars;
 interface Default_Avatar {
 
 	/**
-	 * Creates an indention.
+	 * Creates a default avatar.
 	 *
 	 * @since 1.0.0
 	 * @return bool
@@ -25,7 +25,7 @@ interface Default_Avatar {
 	public function create(): bool;
 
 	/**
-	 * Reads an indention.
+	 * Reads a default avatar.
 	 *
 	 * @since 1.0.0
 	 * @return string|null
