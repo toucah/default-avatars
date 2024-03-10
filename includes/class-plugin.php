@@ -23,7 +23,7 @@ class Plugin {
 	 */
 	public function __construct() {
 		add_action( 'wp_loaded', array( $this, 'instantiate' ) );
-		register_deactivation_hook( trailingslashit( __DIR__ ) . 'default-avatars.php', array( $this, 'register_deactivation_hook' ) );
+		register_deactivation_hook( plugin_dir_path( __DIR__ ) . 'default-avatars.php', array( $this, 'register_deactivation_hook' ) );
 	}
 
 	/**
