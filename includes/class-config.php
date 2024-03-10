@@ -17,7 +17,7 @@ namespace Default_Avatars;
 class Config {
 
 	/**
-	 * Adds hooks.
+	 * Adds filter hooks.
 	 *
 	 * @since 1.0.0
 	 */
@@ -26,7 +26,7 @@ class Config {
 	}
 
 	/**
-	 * Filters the avatar default list.
+	 * Filters the default avatar list.
 	 *
 	 * @since 1.0.0
 	 * @param string $avatar_list The default list.

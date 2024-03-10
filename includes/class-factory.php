@@ -17,7 +17,7 @@ namespace Default_Avatars;
 class Factory {
 
 	/**
-	 * Creates a new instance.
+	 * Creates a new default avatar.
 	 *
 	 * @since 1.0.0
 	 * @param Default_Avatar_Type $type The type of avatar.

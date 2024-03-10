@@ -25,7 +25,7 @@ class Pixicon implements Default_Avatar {
 	private $hash;
 
 	/**
-	 * The file.
+	 * The image file.
 	 *
 	 * @since 1.0.0
 	 * @var string
@@ -33,7 +33,7 @@ class Pixicon implements Default_Avatar {
 	private $file;
 
 	/**
-	 * The URL.
+	 * The image URL.
 	 *
 	 * @since 1.0.0
 	 * @var string
@@ -41,7 +41,7 @@ class Pixicon implements Default_Avatar {
 	private $url;
 
 	/**
-	 * Sets data.
+	 * Sets data related to the image.
 	 *
 	 * @since 1.0.0
 	 * @param string $hash md5 hash of the user email.

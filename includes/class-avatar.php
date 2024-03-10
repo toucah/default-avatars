@@ -17,7 +17,7 @@ namespace Default_Avatars;
 class Avatar {
 
 	/**
-	 * Adds hooks.
+	 * Adds filter hooks.
 	 *
 	 * @since 1.0.0
 	 */

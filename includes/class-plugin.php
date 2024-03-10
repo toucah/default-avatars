@@ -17,7 +17,7 @@ namespace Default_Avatars;
 class Plugin {
 
 	/**
-	 * Adds hooks.
+	 * Adds filter and deactivation hooks.
 	 *
 	 * @since 1.0.0
 	 */
