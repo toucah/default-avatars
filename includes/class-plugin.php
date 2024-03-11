@@ -49,7 +49,7 @@ class Plugin {
 	public function check_extensions() {
 		if ( ! extension_loaded( 'gd' ) ) {
 			wp_admin_notice(
-				__( 'You will need to compile PHP with the GD library of image functions for Default Avatars to work.', 'default-avatars' ),
+				__( 'You will need to compile PHP with the GD library of image functions for the Default Avatars plugin to work.', 'default-avatars' ),
 				array(
 					'dismissible' => true,
 					'type'        => 'warning',
