@@ -23,6 +23,7 @@ class Plugin {
 	 */
 	public function __construct() {
 		add_action( 'wp_loaded', array( $this, 'instantiate' ) );
+		add_action( 'admin_init', array( $this, 'check_extensions' ) );
 		register_deactivation_hook( plugin_dir_path( __DIR__ ) . 'default-avatars.php', array( $this, 'register_deactivation_hook' ) );
 	}
 
@@ -37,6 +38,24 @@ class Plugin {
 		$config = new Config();
 		// Start the Avatar class.
 		$avatar = new Avatar();
+	}
+
+	/**
+	 * Checks if extensions are loaded.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function check_extensions() {
+		if ( ! extension_loaded( 'gd' ) ) {
+			wp_admin_notice(
+				__( 'You will need to compile PHP with the GD library of image functions for Default Avatars to work.', 'default-avatars' ),
+				array(
+					'type'        => 'error',
+					'dismissible' => true,
+				)
+			);
+		}
 	}
 
 	/**
