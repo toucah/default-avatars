@@ -9,7 +9,7 @@
  * Plugin URI: https://github.com/toucah/default-avatars
  * Description: Fun default avatars for your WordPress site.
  * Version: 1.0.0
- * Requires at least: 4.7
+ * Requires at least: 6.4
  * Requires PHP: 8.1
  * Author: toucah
  * Author URI: https://toucah.com

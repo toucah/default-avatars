@@ -1,7 +1,7 @@
 === Default Avatars ===
 Contributors: henry.wright
 Tags: users, avatars
-Requires at least: 4.7
+Requires at least: 6.4
 Tested up to: 6.4
 Stable tag: 1.0.0
 Requires PHP: 8.1
