@@ -46,7 +46,16 @@ class Plugin {
 	 * @return void
 	 */
 	public function register_deactivation_hook() {
-		// Set option.
-		update_option( 'avatar_default', 'mystery' );
+		// Get the user option.
+		$avatar_default = get_option( 'avatar_default' );
+		// Check the type of the user option.
+		if ( is_string( $avatar_default ) ) {
+			// Try to get the type from the option.
+			$case = Default_Avatar_Type::tryFrom( $avatar_default );
+			if ( ! is_null( $case ) ) {
+				// Set option.
+				update_option( 'avatar_default', 'mystery' );
+			}
+		}
 	}
 }
