@@ -51,8 +51,8 @@ class Plugin {
 			wp_admin_notice(
 				__( 'You will need to compile PHP with the GD library of image functions for Default Avatars to work.', 'default-avatars' ),
 				array(
-					'type'        => 'error',
 					'dismissible' => true,
+					'type'        => 'warning',
 				)
 			);
 		}
