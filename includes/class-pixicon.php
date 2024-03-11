@@ -64,6 +64,9 @@ class Pixicon implements Default_Avatar {
 	 * @return bool
 	 */
 	public function create(): bool {
+		if ( ! extension_loaded( 'gd' ) ) {
+			return false;
+		}
 		// Create a new image.
 		$image = imagecreatetruecolor(
 			625,
@@ -152,7 +155,11 @@ class Pixicon implements Default_Avatar {
 	 * @return bool
 	 */
 	public function update( \GdImage $image ): bool {
-		return imagepng( $image, $this->file );
+		if ( extension_loaded( 'gd' ) ) {
+			return imagepng( $image, $this->file );
+		} else {
+			return false;
+		}
 	}
 
 	/**
