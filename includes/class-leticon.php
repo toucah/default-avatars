@@ -1,6 +1,6 @@
 <?php
 /**
- * Pixicon class
+ * Leticon class
  *
  * @package Default Avatars
  */
@@ -10,11 +10,11 @@ declare(strict_types=1);
 namespace Default_Avatars;
 
 /**
- * The Pixicon class definition.
+ * The Leticon class definition.
  *
  * @since 1.0.0
  */
-class Pixicon implements Default_Avatar {
+class Leticon implements Default_Avatar {
 
 	/**
 	 * The md5 hash of the user email.
@@ -23,6 +23,14 @@ class Pixicon implements Default_Avatar {
 	 * @var string
 	 */
 	private $hash;
+
+	/**
+	 * The first letter of the user.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	private $letter;
 
 	/**
 	 * The image file.
@@ -41,6 +49,14 @@ class Pixicon implements Default_Avatar {
 	private $url;
 
 	/**
+	 * The font.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	private $font;
+
+	/**
 	 * Sets data related to the image.
 	 *
 	 * @since 1.0.0
@@ -49,16 +65,19 @@ class Pixicon implements Default_Avatar {
 	public function __construct( string $email ) {
 		// Set the hash.
 		$this->hash = md5( strtolower( trim( $email ) ) );
+		// Set the letter.
+		$this->letter = strtoupper( substr( $email, 0, 1 ) );
 		// Get the upload directory.
 		$wp_upload_dir = wp_upload_dir();
 		// Set the file.
-		$this->file = trailingslashit( $wp_upload_dir['basedir'] ) . trailingslashit( 'default-avatars' ) . trailingslashit( $this->hash ) . 'pixicon.png';
+		$this->file = trailingslashit( $wp_upload_dir['basedir'] ) . trailingslashit( 'default-avatars' ) . trailingslashit( $this->hash ) . 'leticon.png';
 		// Set the URL.
-		$this->url = trailingslashit( $wp_upload_dir['baseurl'] ) . trailingslashit( 'default-avatars' ) . trailingslashit( $this->hash ) . 'pixicon.png';
+		$this->url = trailingslashit( $wp_upload_dir['baseurl'] ) . trailingslashit( 'default-avatars' ) . trailingslashit( $this->hash ) . 'leticon.png';
+		$this->font = plugin_dir_path( __DIR__ ) . trailingslashit( 'fonts' ) . 'NotoSans-Regular.ttf';
 	}
 
 	/**
-	 * Creates a pixicon.
+	 * Creates a leticon.
 	 *
 	 * @since 1.0.0
 	 * @return bool
@@ -75,51 +94,64 @@ class Pixicon implements Default_Avatar {
 		if ( false === $image ) {
 			return false;
 		}
-		foreach ( range( 0, 4 ) as $x ) {
-			foreach ( range( 0, 4 ) as $y ) {
-				// Get part of the hash.
-				$part = substr( $this->hash, $x * 5 + $y + 6, 1 );
-				// Set data.
-				$data[ $x ][ $y ] = hexdec( $part ) % 2 === 0;
-				// Get the key.
-				$key = match ( $x ) {
-					3       => $x - 2,
-					4       => $x - 4,
-					default => $x - 0,
-				};
-				// Get red.
-				$red = $data[ $key ][ $y ] ? substr( $this->hash, 0, 2 ) : 'ee';
-				// Get green.
-				$green = $data[ $key ][ $y ] ? substr( $this->hash, 2, 2 ) : 'ee';
-				// Get blue.
-				$blue = $data[ $key ][ $y ] ? substr( $this->hash, 4, 2 ) : 'ee';
-				// Allocate.
-				$color = imagecolorallocate(
-					$image,
-					(int) hexdec( $red ),
-					(int) hexdec( $green ),
-					(int) hexdec( $blue )
-				);
-				if ( false === $color ) {
-					return false;
-				}
-				$x1 = $x * 125;
-				$y1 = $y * 125;
-				$x2 = ( $x * 125 ) + 125;
-				$y2 = ( $y * 125 ) + 125;
-				// Draw a filled rectangle in the image.
-				$fill = imagefilledrectangle(
-					$image,
-					$x1,
-					$y1,
-					$x2,
-					$y2,
-					$color
-				);
-				if ( false === $fill ) {
-					return false;
-				}
-			}
+		// Get red.
+		$red = substr( $this->hash, 0, 2 );
+		// Get green.
+		$green = substr( $this->hash, 2, 2 );
+		// Get blue.
+		$blue = substr( $this->hash, 4, 2 );
+		// Allocate.
+		$color = imagecolorallocate(
+			$image,
+			(int) hexdec( $red ),
+			(int) hexdec( $green ),
+			(int) hexdec( $blue )
+		);
+		if ( false === $color ) {
+			return false;
+		}
+		// Allocate.
+		$black = imagecolorallocate(
+			$image,
+			0,
+			0,
+			0
+		);
+		if ( false === $black ) {
+			return false;
+		}
+		$fill = imagefilledrectangle(
+			$image,
+			0,
+			0,
+			625,
+			625,
+			$color
+		);
+		if ( false === $fill ) {
+			return false;
+		}
+		$bounding_box = imagettfbbox(
+			375,
+			0,
+			$this->font,
+			$this->letter
+		);
+		if ( false === $bounding_box ) {
+			return false;
+		}
+		$bounding_box = imagettftext(
+			$image,
+			375,
+			0,
+			(int) ceil( ( 625 - $bounding_box[2] ) / 2 ),
+			500,
+			$black,
+			$this->font,
+			$this->letter
+		);
+		if ( false === $bounding_box ) {
+			return false;
 		}
 		// Get the path to the parent directory.
 		$dir = dirname( $this->file );
@@ -133,7 +165,7 @@ class Pixicon implements Default_Avatar {
 	}
 
 	/**
-	 * Reads a pixicon.
+	 * Reads a leticon.
 	 *
 	 * @since 1.0.0
 	 * @return string|null
@@ -148,7 +180,7 @@ class Pixicon implements Default_Avatar {
 	}
 
 	/**
-	 * Updates a pixicon.
+	 * Updates a leticon.
 	 *
 	 * @since 1.0.0
 	 * @param \GdImage $image The image.
@@ -163,7 +195,7 @@ class Pixicon implements Default_Avatar {
 	}
 
 	/**
-	 * Deletes a pixicon.
+	 * Deletes a leticon.
 	 *
 	 * @since 1.0.0
 	 * @return void

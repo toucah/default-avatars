@@ -1,6 +1,6 @@
 <?php
 /**
- * Email class
+ * User class
  *
  * @package Default Avatars
  */
@@ -10,11 +10,11 @@ declare(strict_types=1);
 namespace Default_Avatars;
 
 /**
- * The Email class definition.
+ * The User class definition.
  *
  * @since 1.0.0
  */
-class Email {
+class User {
 
 	/**
 	 * Gets a user email from a user identifier.

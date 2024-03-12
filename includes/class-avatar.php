@@ -49,29 +49,18 @@ class Avatar {
 		if ( is_null( $case ) ) {
 			return $args;
 		}
-		$email = new Email();
+		$user = new User();
 		// Get a user email from the identifier.
-		$email = $email->get_email_from_id_or_email( $id_or_email );
+		$email = $user->get_email_from_id_or_email( $id_or_email );
 		// Check if a user email is available.
 		if ( ! is_null( $email ) ) {
-			// Get a hash from the user email.
-			$hash = md5( strtolower( trim( $email ) ) );
-		}
-		if ( is_string( $id_or_email ) ) {
-			// Check if the identifier contains a hash.
-			if ( str_contains( $id_or_email, '@md5.gravatar.com' ) ) {
-				// Get a hash from the identifier.
-				list( $hash ) = explode( '@', $id_or_email );
-			}
-		}
-		if ( isset( $hash ) ) {
 			// Check if a Gravatar image is available.
 			$gravatar = new Gravatar();
-			if ( true === $gravatar->read( $hash ) ) {
+			if ( true === $gravatar->read( $email ) ) {
 				return $args;
 			}
 			// Create a new instance.
-			$default_avatar = Factory::make( $case, $hash );
+			$default_avatar = Factory::make( $case, $email );
 			// Set the default.
 			$args['default'] = $default_avatar->read();
 			// Check if the file doesn't exist.

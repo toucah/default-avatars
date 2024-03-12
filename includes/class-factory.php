@@ -21,11 +21,11 @@ class Factory {
 	 *
 	 * @since 1.0.0
 	 * @param Default_Avatar_Type $type The type of avatar.
-	 * @param string              $hash md5 hash of the user email.
+	 * @param string              $email The user email.
 	 * @return Default_Avatar
 	 */
-	public static function make( Default_Avatar_Type $type, string $hash ): Default_Avatar {
+	public static function make( Default_Avatar_Type $type, string $email ): Default_Avatar {
 		$class = __NAMESPACE__ . '\\' . $type->name;
-		return new $class( $hash );
+		return new $class( $email );
 	}
 }

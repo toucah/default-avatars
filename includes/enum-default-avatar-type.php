@@ -24,6 +24,13 @@ enum Default_Avatar_Type: string {
 	case Pixicon = 'pixicon';
 
 	/**
+	 * Leticon.
+	 *
+	 * @since 1.0.0
+	 */
+	case Leticon = 'leticon';
+
+	/**
 	 * Gets a label.
 	 *
 	 * @since 1.0.0
@@ -31,7 +38,8 @@ enum Default_Avatar_Type: string {
 	 */
 	public function label(): string {
 		return match ( $this ) {
-			self::Pixicon => __( 'Pixicon (Generated)', 'default-avatars' )
+			self::Pixicon => __( 'Pixicon (Generated)', 'default-avatars' ),
+			self::Leticon => __( 'Leticon (Generated)', 'default-avatars' )
 		};
 	}
 }

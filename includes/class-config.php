@@ -36,10 +36,8 @@ class Config {
 		foreach ( Default_Avatar_Type::cases() as $case ) {
 			// Get the current user.
 			$user = wp_get_current_user();
-			// Get a hash from the user email.
-			$hash = md5( strtolower( trim( $user->user_email ) ) );
 			// Create a new instance.
-			$default_avatar = Factory::make( $case, $hash );
+			$default_avatar = Factory::make( $case, $user->user_email );
 			// Set the default.
 			$default_value = $default_avatar->read();
 			// Check if the file doesn't exist.
@@ -77,6 +75,7 @@ class Config {
 			$avatar_list .= ' ';
 			$avatar_list .= $case->label();
 			$avatar_list .= '</label>';
+			$avatar_list .= '<br>';
 		}
 		return $avatar_list;
 	}
