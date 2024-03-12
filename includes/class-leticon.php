@@ -73,6 +73,7 @@ class Leticon implements Default_Avatar {
 		$this->file = trailingslashit( $wp_upload_dir['basedir'] ) . trailingslashit( 'default-avatars' ) . trailingslashit( $this->hash ) . 'leticon.png';
 		// Set the URL.
 		$this->url = trailingslashit( $wp_upload_dir['baseurl'] ) . trailingslashit( 'default-avatars' ) . trailingslashit( $this->hash ) . 'leticon.png';
+		// Set the font.
 		$this->font = plugin_dir_path( __DIR__ ) . trailingslashit( 'fonts' ) . 'NotoSans-Regular.ttf';
 	}
 
