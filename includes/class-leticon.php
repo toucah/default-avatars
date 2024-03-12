@@ -145,7 +145,7 @@ class Leticon implements Default_Avatar {
 			$image,
 			375,
 			0,
-			(int) ceil( ( 625 - $bounding_box[2] ) / 2 ),
+			(int) floor( ( 625 - $bounding_box[2] ) / 2 ),
 			500,
 			$black,
 			$this->font,
