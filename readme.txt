@@ -34,7 +34,8 @@ Broken images are displayed if your server is behind a firewall.
 
 = What default avatar types are available? =
 
-Pixicon is available now. New types may be added.
+- Pixicon
+- Leticon
 
 = How can I change the default avatar type? =
 
