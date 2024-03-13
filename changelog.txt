@@ -1,1 +1,5 @@
 *** Default Avatars Changelog ***
+
+2024-03-13 - version 1.0.0
+* Added Pixicon
+* Added Leticon
