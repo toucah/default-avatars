@@ -48,6 +48,7 @@ Please open a [GitHub](https://github.com/toucah/default-avatars) issue.
 == Screenshots ==
 
 1. Pixicons
+1. Leticons
 
 == Changelog ==
 
