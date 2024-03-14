@@ -67,7 +67,23 @@ class Pixicon implements Default_Avatar {
 		if ( ! extension_loaded( 'gd' ) ) {
 			return false;
 		}
-		// Create a new image.
+		// Create the left part of the image.
+		$left = imagecreatetruecolor(
+			375,
+			625
+		);
+		if ( false === $left ) {
+			return false;
+		}
+		// Create the right part of the image.
+		$right = imagecreatetruecolor(
+			250,
+			625
+		);
+		if ( false === $right ) {
+			return false;
+		}
+		// Create the image.
 		$image = imagecreatetruecolor(
 			625,
 			625
@@ -75,27 +91,21 @@ class Pixicon implements Default_Avatar {
 		if ( false === $image ) {
 			return false;
 		}
-		foreach ( range( 0, 4 ) as $x ) {
+		foreach ( range( 0, 2 ) as $x ) {
 			foreach ( range( 0, 4 ) as $y ) {
 				// Get part of the hash.
 				$part = substr( $this->hash, $x * 5 + $y + 6, 1 );
 				// Set data.
 				$data[ $x ][ $y ] = hexdec( $part ) % 2 === 0;
-				// Get the key.
-				$key = match ( $x ) {
-					3       => $x - 2,
-					4       => $x - 4,
-					default => $x - 0,
-				};
 				// Get red.
-				$red = $data[ $key ][ $y ] ? substr( $this->hash, 0, 2 ) : 'ee';
+				$red = $data[ $x ][ $y ] ? substr( $this->hash, 0, 2 ) : 'ee';
 				// Get green.
-				$green = $data[ $key ][ $y ] ? substr( $this->hash, 2, 2 ) : 'ee';
+				$green = $data[ $x ][ $y ] ? substr( $this->hash, 2, 2 ) : 'ee';
 				// Get blue.
-				$blue = $data[ $key ][ $y ] ? substr( $this->hash, 4, 2 ) : 'ee';
+				$blue = $data[ $x ][ $y ] ? substr( $this->hash, 4, 2 ) : 'ee';
 				// Allocate.
 				$color = imagecolorallocate(
-					$image,
+					$left,
 					(int) hexdec( $red ),
 					(int) hexdec( $green ),
 					(int) hexdec( $blue )
@@ -109,7 +119,7 @@ class Pixicon implements Default_Avatar {
 				$y2 = ( $y * 125 ) + 125;
 				// Draw a filled rectangle in the image.
 				$fill = imagefilledrectangle(
-					$image,
+					$left,
 					$x1,
 					$y1,
 					$x2,
@@ -120,6 +130,52 @@ class Pixicon implements Default_Avatar {
 					return false;
 				}
 			}
+		}
+		$copy = imagecopy(
+			$right,
+			$left,
+			0,
+			0,
+			0,
+			0,
+			250,
+			625
+		);
+		if ( false === $copy ) {
+			return false;
+		}
+		$flip = imageflip(
+			$right,
+			IMG_FLIP_HORIZONTAL
+		);
+		if ( false === $flip ) {
+			return false;
+		}
+		$copy = imagecopy(
+			$image,
+			$left,
+			0,
+			0,
+			0,
+			0,
+			375,
+			625
+		);
+		if ( false === $copy ) {
+			return false;
+		}
+		$copy = imagecopy(
+			$image,
+			$right,
+			375,
+			0,
+			0,
+			0,
+			250,
+			625
+		);
+		if ( false === $copy ) {
+			return false;
 		}
 		// Get the path to the parent directory.
 		$dir = dirname( $this->file );
