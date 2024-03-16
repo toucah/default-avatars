@@ -64,6 +64,7 @@ class Pixicon implements Default_Avatar {
 	 * @return bool
 	 */
 	public function create(): bool {
+		// Check if the extension isn't loaded.
 		if ( ! extension_loaded( 'gd' ) ) {
 			return false;
 		}
@@ -83,7 +84,7 @@ class Pixicon implements Default_Avatar {
 		if ( false === $right ) {
 			return false;
 		}
-		// Create the image.
+		// Create the final image.
 		$image = imagecreatetruecolor(
 			625,
 			625
@@ -91,46 +92,43 @@ class Pixicon implements Default_Avatar {
 		if ( false === $image ) {
 			return false;
 		}
+		// Allocate the primary.
+		$primary = imagecolorallocate(
+			$left,
+			(int) hexdec( substr( $this->hash, 0, 2 ) ),
+			(int) hexdec( substr( $this->hash, 2, 2 ) ),
+			(int) hexdec( substr( $this->hash, 4, 2 ) )
+		);
+		if ( false === $primary ) {
+			return false;
+		}
+		// Allocate the secondary.
+		$secondary = imagecolorallocate(
+			$left,
+			238,
+			238,
+			238
+		);
+		if ( false === $secondary ) {
+			return false;
+		}
 		foreach ( range( 0, 2 ) as $x ) {
 			foreach ( range( 0, 4 ) as $y ) {
-				// Get part of the hash.
-				$part = substr( $this->hash, $x * 5 + $y + 6, 1 );
-				// Set data.
-				$data[ $x ][ $y ] = hexdec( $part ) % 2 === 0;
-				// Get red.
-				$red = $data[ $x ][ $y ] ? substr( $this->hash, 0, 2 ) : 'ee';
-				// Get green.
-				$green = $data[ $x ][ $y ] ? substr( $this->hash, 2, 2 ) : 'ee';
-				// Get blue.
-				$blue = $data[ $x ][ $y ] ? substr( $this->hash, 4, 2 ) : 'ee';
-				// Allocate.
-				$color = imagecolorallocate(
-					$left,
-					(int) hexdec( $red ),
-					(int) hexdec( $green ),
-					(int) hexdec( $blue )
-				);
-				if ( false === $color ) {
-					return false;
-				}
-				$x1 = $x * 125;
-				$y1 = $y * 125;
-				$x2 = ( $x * 125 ) + 125;
-				$y2 = ( $y * 125 ) + 125;
 				// Draw a filled rectangle in the image.
 				$fill = imagefilledrectangle(
 					$left,
-					$x1,
-					$y1,
-					$x2,
-					$y2,
-					$color
+					$x * 125,
+					$y * 125,
+					$x * 125 + 125,
+					$y * 125 + 125,
+					hexdec( substr( $this->hash, $x * 5 + $y + 6, 1 ) ) % 2 === 0 ? $primary : $secondary
 				);
 				if ( false === $fill ) {
 					return false;
 				}
 			}
 		}
+		// Copy part of the left image.
 		$copy = imagecopy(
 			$right,
 			$left,
@@ -144,6 +142,7 @@ class Pixicon implements Default_Avatar {
 		if ( false === $copy ) {
 			return false;
 		}
+		// Flip the right image.
 		$flip = imageflip(
 			$right,
 			IMG_FLIP_HORIZONTAL
@@ -151,6 +150,7 @@ class Pixicon implements Default_Avatar {
 		if ( false === $flip ) {
 			return false;
 		}
+		// Copy the left image.
 		$copy = imagecopy(
 			$image,
 			$left,
@@ -164,6 +164,7 @@ class Pixicon implements Default_Avatar {
 		if ( false === $copy ) {
 			return false;
 		}
+		// Copy the right image.
 		$copy = imagecopy(
 			$image,
 			$right,
@@ -177,10 +178,8 @@ class Pixicon implements Default_Avatar {
 		if ( false === $copy ) {
 			return false;
 		}
-		// Get the path to the parent directory.
-		$dir = dirname( $this->file );
 		// Create a directory.
-		wp_mkdir_p( $dir );
+		wp_mkdir_p( dirname( $this->file ) );
 		// Save the image to a file.
 		return imagepng(
 			$image,
