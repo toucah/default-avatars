@@ -84,6 +84,7 @@ class Leticon implements Default_Avatar {
 	 * @return bool
 	 */
 	public function create(): bool {
+		// Check if the extension isn't loaded.
 		if ( ! extension_loaded( 'gd' ) ) {
 			return false;
 		}
@@ -95,43 +96,39 @@ class Leticon implements Default_Avatar {
 		if ( false === $image ) {
 			return false;
 		}
-		// Get red.
-		$red = substr( $this->hash, 0, 2 );
-		// Get green.
-		$green = substr( $this->hash, 2, 2 );
-		// Get blue.
-		$blue = substr( $this->hash, 4, 2 );
-		// Allocate.
-		$color = imagecolorallocate(
+		// Allocate the secondary.
+		$secondary = imagecolorallocate(
 			$image,
-			(int) hexdec( $red ),
-			(int) hexdec( $green ),
-			(int) hexdec( $blue )
+			(int) hexdec( substr( $this->hash, 0, 2 ) ),
+			(int) hexdec( substr( $this->hash, 2, 2 ) ),
+			(int) hexdec( substr( $this->hash, 4, 2 ) )
 		);
-		if ( false === $color ) {
+		if ( false === $secondary ) {
 			return false;
 		}
-		// Allocate.
-		$white = imagecolorallocate(
+		// Allocate the primary.
+		$primary = imagecolorallocate(
 			$image,
 			255,
 			255,
 			255
 		);
-		if ( false === $white ) {
+		if ( false === $primary ) {
 			return false;
 		}
+		// Draw a filled rectangle in the image.
 		$fill = imagefilledrectangle(
 			$image,
 			0,
 			0,
 			625,
 			625,
-			$color
+			$secondary
 		);
 		if ( false === $fill ) {
 			return false;
 		}
+		// Get the bounding box.
 		$bounding_box = imagettfbbox(
 			375,
 			0,
@@ -141,23 +138,22 @@ class Leticon implements Default_Avatar {
 		if ( false === $bounding_box ) {
 			return false;
 		}
+		// Draw text in the image.
 		$bounding_box = imagettftext(
 			$image,
 			375,
 			0,
 			(int) floor( ( 625 - $bounding_box[2] ) / 2 ),
 			500,
-			$white,
+			$primary,
 			$this->font,
 			$this->letter
 		);
 		if ( false === $bounding_box ) {
 			return false;
 		}
-		// Get the path to the parent directory.
-		$dir = dirname( $this->file );
 		// Create a directory.
-		wp_mkdir_p( $dir );
+		wp_mkdir_p( dirname( $this->file ) );
 		// Save the image to a file.
 		return imagepng(
 			$image,
