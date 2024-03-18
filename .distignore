@@ -4,6 +4,7 @@
 .github
 .gitignore
 .phpcs.xml.dist
+.wordpress-org
 composer.json
 composer.lock
 phpstan.neon.dist
