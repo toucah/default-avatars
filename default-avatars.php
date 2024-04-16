@@ -12,7 +12,7 @@
  * Requires at least: 6.4
  * Requires PHP: 8.1
  * Author: toucah
- * Author URI: https://toucah.com
+ * Author URI: https://github.com/toucah
  * Text Domain: default-avatars
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
