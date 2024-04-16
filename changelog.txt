@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.1] - 2024-04-16
+
+### Added
+
+- A notice if the GD library isn't loaded
+
+### Fixed
+
+- Broken images when the plugin is deactivated and an existing option isn't set
+
 ## [1.0.0] - 2024-03-13
 
 ### Added

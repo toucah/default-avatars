@@ -3,7 +3,7 @@ Contributors: henry.wright
 Tags: users, avatars
 Requires at least: 6.4
 Tested up to: 6.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 8.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
